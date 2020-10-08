@@ -1,7 +1,7 @@
-package com.learnJava.myOwnLinkedList;
+package com.myOwnCollection;
 
-import com.learnJava.myOwnLinkedList.genericLinkedList.GenericLinkedList;
-import com.learnJava.myOwnLinkedList.genericLinkedList.GenericNode;
+import com.learnJava.myOwnCollection.genericLinkedList.GenericLinkedList;
+import com.learnJava.myOwnCollection.genericLinkedList.GenericNode;
 
 
 public class Main {
