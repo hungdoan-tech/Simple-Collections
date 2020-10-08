@@ -1,9 +1,7 @@
-package com.learnJava.myOwnCollection.genericLinkedList;
-
-import com.myOwnCollection.MyIIterator;
+package com.learnJava.myOwnCollection.List;
 
 // Create a wrapper for T type with Generic Class
-public class GenericNode<T> implements MyIIterator<T> {
+public class GenericNode<T> {
 	private T data;
 	private GenericNode<T> nextNode;
 	private GenericNode<T> previousNode;
