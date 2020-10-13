@@ -1,11 +1,9 @@
 package com.myOwnCollection;
 
-import java.util.Objects;
-
-public interface MyICollection extends MyIIterable {
-	boolean add(Objects obj);
-	boolean remove(Objects obj);
-	boolean contains(Objects obj);
+public interface MyICollection<T> extends MyIIterable<T> {
+	boolean add(T obj);
+	boolean remove(T obj);
+	boolean contains(T obj);
 	boolean isEmpty();
 	void clear();	
 	int size();
