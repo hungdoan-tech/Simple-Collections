@@ -1,4 +1,4 @@
-package com.learnJava.myOwnLinkedList.genericLinkedList;
+package com.learnJava.myOwnCollection.List;
 
 // Create a wrapper for T type with Generic Class
 public class GenericNode<T> {

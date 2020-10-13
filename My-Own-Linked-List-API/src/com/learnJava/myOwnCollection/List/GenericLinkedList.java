@@ -1,4 +1,5 @@
-package com.learnJava.myOwnLinkedList.genericLinkedList;
+package com.learnJava.myOwnCollection.List;
+
 
 public class GenericLinkedList<T> {
 	private GenericNode<T> headNode;
