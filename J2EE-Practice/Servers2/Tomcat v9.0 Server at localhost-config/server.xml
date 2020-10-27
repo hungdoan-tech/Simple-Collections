@@ -17,7 +17,7 @@
 --><!-- Note:  A "Server" is not itself a "Container", so you may not
      define subcomponents such as "Valves" at this level.
      Documentation at /docs/config/server.html
- --><Server port="8085" shutdown="SHUTDOWN">
+ --><Server port="8005" shutdown="SHUTDOWN">
   <Listener className="org.apache.catalina.startup.VersionLoggerListener"/>
   <!-- Security listener. Documentation at /docs/config/listeners.html
   <Listener className="org.apache.catalina.security.SecurityListener" />
@@ -103,7 +103,7 @@
         </SSLHostConfig>
     </Connector>
     -->
-
+	<Connector SSLEnabled="true" clientAuth="false" keystoreFile="/opt/tomcat/keystore/tomcat" keystorePass="Admin123*" maxThreads="150" port="8443" protocol="org.apache.coyote.http11.Http11NioProtocol" scheme="https" secure="true" sslProtocol="TLS"/>
     <!-- Define an AJP 1.3 Connector on port 8009 -->
     <!--
     <Connector protocol="AJP/1.3"
@@ -153,7 +153,7 @@
              Note: The pattern used is equivalent to using pattern="common" -->
         <Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
-      <Context docBase="BaiTapTuan1" path="/BaiTapTuan1" reloadable="true" source="org.eclipse.jst.jee.server:BaiTapTuan1"/><Context docBase="ShoesStore" path="/ShoesStore" reloadable="true" source="org.eclipse.jst.jee.server:ShoesStore"/></Host>
+      <Context docBase="ServletFilter" path="/ServletFilter" reloadable="true" source="org.eclipse.jst.jee.server:ServletFilter"/></Host>
     </Engine>
   </Service>
 </Server>
