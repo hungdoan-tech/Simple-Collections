@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+  http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+  version="2.0">
+  <tlib-version>1.0</tlib-version>
+  <short-name>csajsp-taglib</short-name>
+
+  <tag>
+    <description>Outputs an N-digit prime</description>
+    <name>PTBac2Tag</name>
+    <tag-class>com.coreservlet.tags.PTBac2Tag</tag-class>
+    <body-content>empty</body-content>
+    <attribute>
+      <description>First Parameter</description>
+      <name>varA</name>
+      <required>true</required>
+    </attribute>
+	<attribute>
+      <description>Second Parameter</description>
+      <name>varB</name>
+      <required>false</required>
+    </attribute>
+	<attribute>
+      <description>Third Parameter</description>
+      <name>varC</name>
+      <required>true</required>
+    </attribute>
+  </tag>
+</taglib>
