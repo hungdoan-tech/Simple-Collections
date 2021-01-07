@@ -1,10 +1,11 @@
-package com.learnJava.ArrayList;
+package com.myOwnCollection;
 
-public class Array {
+public class ArrayList<T> {
 
 	private int length;
 	private int count;
-	private int[] arr;
+	private static final int DEFAULT_LENGHT = 10;
+	private Object[] arr;
 
 
 	public int getCount() {
@@ -15,35 +16,39 @@ public class Array {
 		return length;
 	}
 
-	public int[] getArr() {
+	public Object[] getArr() {
 		return arr;
 	}
 
-	public Array(int length) {
-		super();
-		this.length = length;
+	public ArrayList() {		
 		this.count = 0;
-		this.arr = new int[this.length];
+		this.arr = new Object[ArrayList.DEFAULT_LENGHT];
 	}
 	
-	public int indexOf(int value) {
+	public ArrayList(int length) {
+		this.length = length;
+		this.count = 0;
+		this.arr = new Object[this.length];
+	}
+	
+	public int indexOf(T value) {
 		for (int i = 0; i < this.arr.length; i++) {
-			if(this.arr[i] == value) {
+			if((T) this.arr[i] == value) {
 				return i;
 			}
 		}
 		return -1;
 	}
 	
-	public void insert(int value) {
+	public void insert(T value) {
 		if(this.count < this.length) {
 			this.arr[count++] = value;
 		}
 		else {
 			
 			this.length = this.length*2;
-			int[] tempArr = this.arr.clone();
-			this.arr = new int[this.length];
+			Object[] tempArr = this.arr.clone();
+			this.arr = new Object[this.length];
 			
 			for(int i=0;i<this.count;i++) {
 				this.arr[i] = tempArr[i];
@@ -64,12 +69,15 @@ public class Array {
 		}
 	}
 	
+	public T getAt(int index) {		
+		return index<=this.count ? (T) this.arr[index] : null;
+	}
 	
 	public void print() {
 		System.out.println("The lenght of this array is : " + this.length);
 		System.out.println("This array has " + this.count + " element has non-empty value");
 		for (int i = 0; i < this.count; i++) {
-			System.out.print(this.arr[i] + " ");
+			System.out.print((T) this.arr[i] + " ");
 		}
 		System.out.println();
 	}
