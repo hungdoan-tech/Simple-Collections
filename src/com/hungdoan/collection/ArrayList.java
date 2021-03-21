@@ -54,6 +54,19 @@ public class ArrayList<T> implements List<T> {
 		this.setLenght((int) (inArray.length * this.SCALE_CONSTANT));
 	}
 	
+	public ArrayList(List<T> inList) {
+		
+		this.currentIndex = 0;
+		this.length = inList.size();
+		this.array = new Object[this.length];
+		
+		Iterator<T> iterator = inList.iterator();
+		while(iterator.hasNext()) {
+			this.insert(iterator.next());
+			this.currentIndex++;
+		}
+	}
+	
 	public boolean insert(T inValue) {
 		if(this.currentIndex == this.length) {
 			Object[]  tempArr = this.array;
@@ -157,10 +170,10 @@ public class ArrayList<T> implements List<T> {
  		return iterator;
 	}
 
-	@Override
 	public T max() {
 		
 //		we need our each element must be implement Comparable interface 
+		
 //		T max = (T) this.array[0];
 //		for(Object item: this.array) {
 //			if(max > item) {
@@ -172,25 +185,36 @@ public class ArrayList<T> implements List<T> {
 	
 	@SuppressWarnings("unchecked")
 	public ArrayList<T> intersect(ArrayList<T> opponent) {
-		Map<Object, Integer> intercectMap = new HashMap<Object, Integer>(); 		
-		for(Object item: this.array) {					
-			intercectMap.put(item, 1);			
-		}
 		
-		for(Object item: opponent.array) {					
-			if(intercectMap.containsKey(item)) {
-				Integer currentValue = intercectMap.get(item); 
-				intercectMap.put(item, currentValue + 1);
-			}					
+		Map<Object, Integer> intercectMap = new HashMap<Object, Integer>();
+		int firstLength = this.getCurrentIndex();
+		int secondLength = opponent.getCurrentIndex();
+		int finalLength = (firstLength >= secondLength) ? firstLength : secondLength; 
+		
+		for(int i=0; i < finalLength; i++) {
+			Object mainItem = this.getAt(i);
+			Object opponentItem = opponent.getAt(i);
+			
+			if(intercectMap.containsKey(mainItem)) {
+				Integer currentValue = intercectMap.get(mainItem); 
+				intercectMap.put(mainItem, currentValue + 1);
+			} else {
+				intercectMap.put(mainItem, 1);
+			}
+			
+			if(intercectMap.containsKey(opponentItem)) {
+				Integer currentValue = intercectMap.get(opponentItem); 
+				intercectMap.put(opponentItem, currentValue + 1);
+			} else {
+				intercectMap.put(opponentItem, 1);
+			}
 		}
 		
 		ArrayList<T> output = new ArrayList<T>();
-		for(var item : intercectMap.entrySet()) {
-			if(item.getKey()!=null) {
+		for(var item : intercectMap.entrySet()) {			
 				if(item.getValue() > 1) {
 					output.insert((T) item.getKey());
-				}
-			}			
+				}			
 		}
 		return output;
 	}
@@ -217,5 +241,11 @@ public class ArrayList<T> implements List<T> {
 		switchElementPositionToRight(index);
 		this.array[index] = value;
 		return true;
+	}
+
+	@Override
+	public int indexOf(T value) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

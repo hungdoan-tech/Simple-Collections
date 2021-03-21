@@ -3,6 +3,8 @@ package com.hungdoan.collection;
 public class Node<T> {
 	private T value;
 	
+	private Node<T> next;
+	
 	public T getValue() {
 		return value;
 	}
@@ -11,7 +13,19 @@ public class Node<T> {
 		this.value = value;
 	}
 
+	public Node<T> getNext() {
+		return this.next;
+	}
+	
+	public void setNext(Node<T> next) {
+		this.next = next;
+	}
+	
 	public Node() {
-		// TODO Auto-generated constructor stub
+		
+	}
+	
+	public Node(T value) {
+		this.value = value;
 	}
 }
