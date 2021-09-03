@@ -1,13 +1,15 @@
-package com.hungdoan.collection;
+package com.hungdoan.collection.list;
+
+import com.hungdoan.collection.Iterator;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ArrayList<T> implements List<T> {
 	
-	private final int SCALE_CONSTANT = 2;
+	private static final int SCALE_CONSTANT = 2;
 	
-	private final int DEFAULT_LENGTH = 10;
+	private static final int DEFAULT_LENGTH = 10;
 	
 	private Object[] array;
 	
@@ -15,12 +17,12 @@ public class ArrayList<T> implements List<T> {
 	
 	private int currentIndex;
 
-	public int getLenght() {
+	public int getLength() {
 		return length;
 	}
 
-	public void setLenght(int lenght) {
-		this.length = lenght;
+	public void setLength(int length) {
+		this.length = length;
 	}
 
 	public Object[] getArray() {
@@ -37,7 +39,7 @@ public class ArrayList<T> implements List<T> {
 
 	public ArrayList() {
 		this.currentIndex = 0;
-		this.length = this.DEFAULT_LENGTH;
+		this.length = DEFAULT_LENGTH;
 		this.array = new Object[this.length];
 	}
 	
@@ -51,7 +53,7 @@ public class ArrayList<T> implements List<T> {
 		
 		this.setArray(inArray);
 		this.currentIndex = inArray.length; 
-		this.setLenght((int) (inArray.length * this.SCALE_CONSTANT));
+		this.setLength(inArray.length * SCALE_CONSTANT);
 	}
 	
 	public ArrayList(List<T> inList) {
@@ -70,7 +72,7 @@ public class ArrayList<T> implements List<T> {
 	public boolean insert(T inValue) {
 		if(this.currentIndex == this.length) {
 			Object[]  tempArr = this.array;
-			this.length = (int) (this.length * this.SCALE_CONSTANT);
+			this.length = (this.length * SCALE_CONSTANT);
 			this.array = new Object[this.length];
 			this.scaleUpMainArray(tempArr);
 		}
@@ -85,8 +87,7 @@ public class ArrayList<T> implements List<T> {
 		this.switchElementPositionToLeft(index);
 		return true;
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	public T getAt(int index) {
 		if(index >= this.length || index < 0) {
 			return null;
@@ -117,13 +118,12 @@ public class ArrayList<T> implements List<T> {
 		}
 		return this.array;
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	@Override
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder("[");
 		for(int i =0; i < this.currentIndex; i++) {
-			stringBuilder.append((T) (this.array[i]));
+			stringBuilder.append(this.array[i]);
 			stringBuilder.append(",");
 		}				
 		stringBuilder.deleteCharAt(stringBuilder.length()-1);
@@ -131,7 +131,6 @@ public class ArrayList<T> implements List<T> {
 		return stringBuilder.toString();
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean contain(T inValue) {
 		for(Object item : this.array) {
@@ -145,17 +144,16 @@ public class ArrayList<T> implements List<T> {
 
 	@Override
 	public boolean isEmpty() {
-		return (this.currentIndex == 0) ? true : false;
+		return (this.currentIndex == 0);
 	}
 
-	@SuppressWarnings("unused")
 	@Override
 	public void clear() {
-		for(Object item : this.array) {
-			item = null;
+		for(int i =0; i < this.length; i++) {
+			this.array[i] = null;
 		}
 		this.currentIndex = 0;
-		this.length = this.DEFAULT_LENGTH;
+		this.length = DEFAULT_LENGTH;
 		this.array = new Object[this.length];
 	}
 
@@ -166,27 +164,17 @@ public class ArrayList<T> implements List<T> {
 	
 	@Override
 	public Iterator<T> iterator() {
-		Iterator<T> iterator = new ArrayListIterator<T>(this);
- 		return iterator;
+		return new ArrayListIterator<>(this);
 	}
 
 	public T max() {
-		
-//		we need our each element must be implement Comparable interface 
-		
-//		T max = (T) this.array[0];
-//		for(Object item: this.array) {
-//			if(max > item) {
-//				
-//			}
-//		}
+		// TODO Auto-generated method stub
 		return null;
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	public ArrayList<T> intersect(ArrayList<T> opponent) {
 		
-		Map<Object, Integer> intercectMap = new HashMap<Object, Integer>();
+		Map<Object, Integer> intersectMap = new HashMap<>();
 		int firstLength = this.getCurrentIndex();
 		int secondLength = opponent.getCurrentIndex();
 		int finalLength = (firstLength >= secondLength) ? firstLength : secondLength; 
@@ -195,23 +183,23 @@ public class ArrayList<T> implements List<T> {
 			Object mainItem = this.getAt(i);
 			Object opponentItem = opponent.getAt(i);
 			
-			if(intercectMap.containsKey(mainItem)) {
-				Integer currentValue = intercectMap.get(mainItem); 
-				intercectMap.put(mainItem, currentValue + 1);
+			if(intersectMap.containsKey(mainItem)) {
+				Integer currentValue = intersectMap.get(mainItem);
+				intersectMap.put(mainItem, currentValue + 1);
 			} else {
-				intercectMap.put(mainItem, 1);
+				intersectMap.put(mainItem, 1);
 			}
 			
-			if(intercectMap.containsKey(opponentItem)) {
-				Integer currentValue = intercectMap.get(opponentItem); 
-				intercectMap.put(opponentItem, currentValue + 1);
+			if(intersectMap.containsKey(opponentItem)) {
+				Integer currentValue = intersectMap.get(opponentItem);
+				intersectMap.put(opponentItem, currentValue + 1);
 			} else {
-				intercectMap.put(opponentItem, 1);
+				intersectMap.put(opponentItem, 1);
 			}
 		}
 		
-		ArrayList<T> output = new ArrayList<T>();
-		for(var item : intercectMap.entrySet()) {			
+		ArrayList<T> output = new ArrayList<>();
+		for(var item : intersectMap.entrySet()) {
 				if(item.getValue() > 1) {
 					output.insert((T) item.getKey());
 				}			

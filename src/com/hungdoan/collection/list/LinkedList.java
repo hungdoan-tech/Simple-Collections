@@ -1,6 +1,8 @@
-package com.hungdoan.collection;
+package com.hungdoan.collection.list;
 
-public class LinkedList<T> implements List<T>{
+import com.hungdoan.collection.Iterator;
+
+public class LinkedList<T> implements List<T> {
 	
 	private Node<T> head;
 	
@@ -28,13 +30,13 @@ public class LinkedList<T> implements List<T>{
 	}
 	
 	private Node<T> createNewNode(T value) {
-		Node<T> node = new Node<T>(value);			
+		Node<T> node = new Node<>(value);
 		node.setNext(null);
 		return node;
 	}
 	
 	private boolean checkInputIndex(int index) {
-		return (index < 0 || index > this.size()) ? false : true;
+		return (index < 0 || index > this.size());
 	}
 	
 	@Override
@@ -42,21 +44,19 @@ public class LinkedList<T> implements List<T>{
 		if(this.isEmpty()) {
 			Node<T> node = this.createNewNode(inValue);
 			this.head = node;	
-			this.tail = node;			
-			return true;
+			this.tail = node;
+		} else {
+			Node<T> node = this.createNewNode(inValue);
+			Node<T> oldTail = this.tail;
+			oldTail.setNext(node);
+			this.tail = node;
 		}
-		
-		Node<T> node = this.createNewNode(inValue);		
-		Node<T> oldTail = this.tail;
-		oldTail.setNext(node);
-		this.tail = node;
-		
 		return true;
 	}
 
 	@Override
 	public boolean contain(T inValue) {
-		Iterator<T> iterator = this.iterator();		
+		Iterator<T> iterator = this.iterator();
 		while(iterator.hasNext()) {
 			if(iterator.next() == inValue) {
 				return true;
@@ -67,12 +67,12 @@ public class LinkedList<T> implements List<T>{
 
 	@Override
 	public boolean isEmpty() {
-		return (this.tail == null && this.head == null) ? true : false; 		
+		return (this.tail == null && this.head == null);
 	}
 
 	@Override
 	public void clear() {
-		
+		// TODO Auto-generated method stub
 	}
 
 	@Override
@@ -88,8 +88,7 @@ public class LinkedList<T> implements List<T>{
 
 	@Override
 	public Iterator<T> iterator() {
-		Iterator<T> iterator = new LinkedListIterator<T>(this.head, this.tail);
-		return iterator;
+		return new LinkedListIterator<>(this.head, this.tail);
 	}
 	
 	@Override
@@ -113,7 +112,7 @@ public class LinkedList<T> implements List<T>{
 
 	@Override
 	public void reverse() {
-		
+		// TODO Auto-generated method stub
 	}
 
 	@Override

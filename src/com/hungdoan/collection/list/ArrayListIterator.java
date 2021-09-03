@@ -1,6 +1,9 @@
-package com.hungdoan.collection;
+package com.hungdoan.collection.list;
 
-public class ArrayListIterator<T> implements Iterator<T>{
+import com.hungdoan.collection.Iterator;
+import com.hungdoan.collection.list.ArrayList;
+
+public class ArrayListIterator<T> implements Iterator<T> {
 
 	private ArrayList<T> arrayList;
 	
@@ -13,7 +16,7 @@ public class ArrayListIterator<T> implements Iterator<T>{
 	
 	@Override
 	public boolean hasNext() {		
-		return (this.currentIndex < this.arrayList.getCurrentIndex()) ? true : false;
+		return (this.currentIndex < this.arrayList.getCurrentIndex());
 	}
 
 	@Override

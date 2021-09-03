@@ -1,4 +1,6 @@
-package com.hungdoan.collection;
+package com.hungdoan.collection.list;
+
+import com.hungdoan.collection.Iterator;
 
 public class LinkedListIterator<T> implements Iterator<T> {
 	
@@ -17,7 +19,7 @@ public class LinkedListIterator<T> implements Iterator<T> {
 				return true; 		
 			}
 			else {
-				return (iterator == tail) ? true : false;
+				return (iterator == tail);
 			}
 		}		
 		return false;

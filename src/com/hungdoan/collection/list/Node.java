@@ -1,6 +1,7 @@
-package com.hungdoan.collection;
+package com.hungdoan.collection.list;
 
 public class Node<T> {
+
 	private T value;
 	
 	private Node<T> next;
