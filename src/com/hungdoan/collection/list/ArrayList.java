@@ -219,6 +219,12 @@ public class ArrayList<T> implements List<T> {
 	}
 
 	@Override
+	public List<T> merge(List<T> otherList) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public boolean insertAt(T value, int index) {
 		if(index >= this.size() || index < 0) {
 			return false;
