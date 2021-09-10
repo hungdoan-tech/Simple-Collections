@@ -130,6 +130,75 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
     }
 
     /**
+     * This method is used to create an abstraction for BST traversal manners
+     *
+     * @param orderTraversalType
+     */
+    public void deepFirstTraversal(OrderTraversalType orderTraversalType) {
+        switch (orderTraversalType) {
+            case PRE_ORDER: {
+                this.preOrderTraversal(this.root);
+                break;
+            }
+            case IN_ORDER: {
+                this.inOrderTraversal(this.root);
+                break;
+            }
+            case POST_ORDER: {
+                this.postOrderTraversal(this.root);
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+        System.out.println();
+        return;
+    }
+
+    /**
+     * Tree traversal in pre-order recursive fashion - the node root will be printed out firstly after that will be respectively all left nodes and all right nodes
+     *
+     * @param node which must be the root node in the first time's input
+     */
+    private void preOrderTraversal(Node<T> node) {
+        if (Objects.isNull(node)) {
+            return;
+        }
+        System.out.print(node.data + " ");
+        preOrderTraversal(node.left);
+        preOrderTraversal(node.right);
+    }
+
+    /**
+     * Tree traversal in in-order fashion - the node root will be printed out in the middle between all it's left nodes and all it's right nodes
+     *
+     * @param node which must be the root node in the first time's input
+     */
+    private void inOrderTraversal(Node<T> node) {
+        if (Objects.isNull(node)) {
+            return;
+        }
+        preOrderTraversal(node.left);
+        System.out.print(node.data + " ");
+        preOrderTraversal(node.right);
+    }
+
+    /**
+     * Tree traversal in post-order recursive fashion - the node root will be printed out lately after respectively all left nodes and all right nodes
+     *
+     * @param node which must be the root node in the first time's input
+     */
+    private void postOrderTraversal(Node<T> node) {
+        if (Objects.isNull(node)) {
+            return;
+        }
+        preOrderTraversal(node.left);
+        preOrderTraversal(node.right);
+        System.out.print(node.data + " ");
+    }
+
+    /**
      * This is a simple Node class for constructing BST
      * This is stored as a nested class for enhancing the encapsulation purpose
      *
@@ -182,8 +251,6 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
         public String toString() {
             return "Node{" +
                     "left=" + left.getData() +
-                    ", data=" + data +
-                    ", right=" + right.getData() +
                     '}';
         }
     }
