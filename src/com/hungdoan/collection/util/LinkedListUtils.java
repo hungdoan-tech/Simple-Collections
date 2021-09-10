@@ -3,6 +3,8 @@ package com.hungdoan.collection.util;
 import com.hungdoan.collection.list.LinkedList;
 import com.hungdoan.collection.list.Node;
 
+import java.util.Objects;
+
 public class LinkedListUtils {
 
     private LinkedListUtils() {
@@ -20,7 +22,7 @@ public class LinkedListUtils {
     public static <T extends Comparable> LinkedList<T> merge(LinkedList<T> firstList, LinkedList<T> secondList) {
         LinkedList<T> linkedList = new LinkedList<>();
         Node<T> node = performMerge(firstList.getHead(), secondList.getHead());
-        while (node != null) {
+        while (!Objects.isNull(node)) {
             T value = node.getValue();
             linkedList.insert(value);
             node = node.getNext();
@@ -37,10 +39,10 @@ public class LinkedListUtils {
      * @return Node<T>   which is the head node of the new merged linked list
      */
     private static <T extends Comparable> Node<T> performMerge(Node<T> firstNode, Node<T> secondNode) {
-        if (firstNode == null) {
+        if (Objects.isNull(firstNode)) {
             return secondNode;
         }
-        if (secondNode == null) {
+        if (Objects.isNull(secondNode)) {
             return firstNode;
         }
         boolean compareResult = firstNode.getValue().compareTo(secondNode.getValue()) <= 0;
