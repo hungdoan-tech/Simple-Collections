@@ -5,6 +5,9 @@ import com.hungdoan.collection.list.Node;
 
 import java.util.Objects;
 
+/**
+ * This class holds utilities for performing Linked List operations
+ */
 public class LinkedListUtils {
 
     private LinkedListUtils() {
@@ -19,7 +22,7 @@ public class LinkedListUtils {
      * @param <T>        which implement Comparable to ensure that T can be compared to perform merge operation
      * @return LinkedList<T> return the new LinkedList which is merged these two input Linked Lists
      */
-    public static <T extends Comparable> LinkedList<T> merge(LinkedList<T> firstList, LinkedList<T> secondList) {
+    public static <T extends Comparable<T>> LinkedList<T> merge(LinkedList<T> firstList, LinkedList<T> secondList) {
         LinkedList<T> linkedList = new LinkedList<>();
         Node<T> node = performMerge(firstList.getHead(), secondList.getHead());
         while (!Objects.isNull(node)) {
@@ -38,7 +41,7 @@ public class LinkedListUtils {
      * @param <T>        which implement Comparable to ensure that T can be compared to perform merge operation
      * @return Node<T>   which is the head node of the new merged linked list
      */
-    private static <T extends Comparable> Node<T> performMerge(Node<T> firstNode, Node<T> secondNode) {
+    private static <T extends Comparable<T>> Node<T> performMerge(Node<T> firstNode, Node<T> secondNode) {
         if (Objects.isNull(firstNode)) {
             return secondNode;
         }

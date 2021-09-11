@@ -5,10 +5,10 @@ import java.util.Objects;
 /**
  * This is the simple implementation of Binary Search Tree data structure
  *
- * @param <T> which extends from Comparable interface to have the constraints which must have
+ * @param <T> Which extends from Comparable interface to have the constraints which must have
  *            the comparable ability to perform operations
  */
-public class BinarySearchTree<T extends Comparable> implements Tree<T> {
+public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
 
     private Node<T> root;
 
@@ -23,7 +23,7 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
     /**
      * This method is used to create an abstraction for inserting a T value to the current BST
      *
-     * @param value the value which we want to insert
+     * @param value The value which we want to insert
      * @return T
      */
     @Override
@@ -40,8 +40,8 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
     /**
      * This method is used to insert a T value to the current BST by the recursive manner
      *
-     * @param node  which must be the root node in the first time's input
-     * @param value the value which we want to insert
+     * @param node  Which must be the root node in the first time's input
+     * @param value The value which we want to insert
      * @return Node<T>
      */
     private Node<T> performInsert(Node<T> node, T value) {
@@ -66,7 +66,7 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
     /**
      * This method is used to create an abstraction for checking a T value is be contained in the current BST or not
      *
-     * @param value the value which we want to seek
+     * @param value The value which we want to seek
      * @return boolean
      */
     @Override
@@ -79,8 +79,8 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
     /**
      * This method is used to check a T value is be contained in the current BST or not by the recursive manner
      *
-     * @param node  which must be the root node in the first time's input
-     * @param value the value which we want to seek
+     * @param node  Which must be the root node in the first time's input
+     * @param value The value which we want to seek
      * @return
      */
     private Node<T> performContain(Node<T> node, T value) {
@@ -98,26 +98,34 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
     }
 
     /**
-     * This method is used to create an abstraction for deleting the node which have T data value in the current BST
+     * This method is used to create an abstraction for all the complex operations
+     * which serve for deleting feature in the current BST
      *
-     * @param value
+     * @param value The value of one of BST nodes we want to delete
      */
     @Override
-    public void delete(T value) {
+    public void remove(T value) {
         this.performDelete(root, value);
     }
 
     /**
      * This method is used to delete the node which have T data value in the current BST by the recursive manner.
      *
-     * @param node
-     * @param value
-     * @return
+     * @param node  Which must be the root node in the first time's input
+     * @param value The value of one of BST nodes we want to delete
+     * @return Node<T> always be the root node
      */
     private Node<T> performDelete(Node<T> node, T value) {
         int comparedResult = node.getData().compareTo(value);
         if (comparedResult == 0) {
-            return null;
+            if (node == this.root) {
+                this.root = this.handlePostRemoving(node);
+                node.setLeft(null);
+                node.setRight(null);
+                return this.root;
+            }
+            // found the one we need for removing
+            return this.handlePostRemoving(node);
         }
         if (comparedResult > 0) {
             Node<T> futureLeftNode = performDelete(node.left, value);
@@ -130,9 +138,57 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
     }
 
     /**
+     * This method is used to handle 4 case when removing a node:
+     * first: all it's child nodes is null
+     * second: all it's child nodes is not null
+     * third: only it's left child node is null
+     * fourth: only it's right child node is null
+     *
+     * @param node The node need to be removed
+     * @return Node<T> The right result for outer operations to perform logic settings
+     */
+    private Node<T> handlePostRemoving(Node<T> node) {
+        Node<T> leftNode = node.getLeft();
+        Node<T> rightNode = node.getRight();
+
+        // Have both left and right child nodes
+        if (!Objects.isNull(leftNode) && !Objects.isNull(rightNode)) {
+            Node<T> lastedLeftLeafNode = getLastedLeftLeafNode(rightNode);
+            lastedLeftLeafNode.setLeft(leftNode);
+            return rightNode;
+        }
+
+        // Have only right child node
+        if (Objects.isNull(leftNode) && !Objects.isNull(rightNode)) {
+            return rightNode;
+        }
+
+        // Have only right child node
+        if (!Objects.isNull(leftNode)) {
+            return leftNode;
+        }
+
+        // Have nothing below the current node
+        return null;
+    }
+
+    /**
+     * This method to get the lasted (the smallest node) left node from the input root node
+     *
+     * @param node This is the root node which we want to travel all around
+     * @return Node<T> The node we want - the smallest node
+     */
+    private Node<T> getLastedLeftLeafNode(Node<T> node) {
+        if (Objects.isNull(node.getLeft())) {
+            return node;
+        }
+        return getLastedLeftLeafNode(node.getLeft());
+    }
+
+    /**
      * This method is used to create an abstraction for BST traversal manners
      *
-     * @param orderTraversalType
+     * @param orderTraversalType The traversal type client want we serve
      */
     public void deepFirstTraversal(OrderTraversalType orderTraversalType) {
         switch (orderTraversalType) {
@@ -153,13 +209,12 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
             }
         }
         System.out.println();
-        return;
     }
 
     /**
      * Tree traversal in pre-order recursive fashion - the node root will be printed out firstly after that will be respectively all left nodes and all right nodes
      *
-     * @param node which must be the root node in the first time's input
+     * @param node Which must be the root node in the first time's input
      */
     private void preOrderTraversal(Node<T> node) {
         if (Objects.isNull(node)) {
@@ -173,7 +228,7 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
     /**
      * Tree traversal in in-order fashion - the node root will be printed out in the middle between all it's left nodes and all it's right nodes
      *
-     * @param node which must be the root node in the first time's input
+     * @param node Which must be the root node in the first time's input
      */
     private void inOrderTraversal(Node<T> node) {
         if (Objects.isNull(node)) {
@@ -187,7 +242,7 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
     /**
      * Tree traversal in post-order recursive fashion - the node root will be printed out lately after respectively all left nodes and all right nodes
      *
-     * @param node which must be the root node in the first time's input
+     * @param node Which must be the root node in the first time's input
      */
     private void postOrderTraversal(Node<T> node) {
         if (Objects.isNull(node)) {
@@ -202,7 +257,7 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
      * This is a simple Node class for constructing BST
      * This is stored as a nested class for enhancing the encapsulation purpose
      *
-     * @param <E> which is similar to T in the outer class
+     * @param <E> Which is similar to T in the outer class
      */
     private class Node<E extends Comparable> {
 
@@ -250,7 +305,7 @@ public class BinarySearchTree<T extends Comparable> implements Tree<T> {
         @Override
         public String toString() {
             return "Node{" +
-                    "left=" + left.getData() +
+                    "data=" + data +
                     '}';
         }
     }

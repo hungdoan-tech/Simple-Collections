@@ -5,5 +5,5 @@ public interface Tree<T extends Comparable> {
 
     boolean contain(T value);
 
-    void delete(T value);
+    void remove(T value);
 }
