@@ -254,6 +254,28 @@ public class BinarySearchTree<T extends Comparable<T>> implements Tree<T> {
     }
 
     /**
+     * This method is used to create an abstraction for printing out current tree shape
+     */
+    public void print() {
+        this.print("", this.root, false);
+    }
+
+    /**
+     * This method is used to print out current tree shape
+     *
+     * @param prefix The concatenated String will be constructed by the recursive manner.
+     * @param node   The current node - which must be the root node in the first time's input
+     * @param isLeft
+     */
+    public void print(String prefix, Node<T> node, boolean isLeft) {
+        if (node != null) {
+            System.out.println(prefix + (isLeft ? "|-- " : "\\-- ") + node.getData());
+            print(prefix + (isLeft ? "|   " : "    "), node.getLeft(), true);
+            print(prefix + (isLeft ? "|   " : "    "), node.getRight(), false);
+        }
+    }
+
+    /**
      * This is a simple Node class for constructing BST
      * This is stored as a nested class for enhancing the encapsulation purpose
      *

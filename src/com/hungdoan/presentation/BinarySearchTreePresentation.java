@@ -12,10 +12,10 @@ public class BinarySearchTreePresentation {
             binaryTree.insert(element);
         }
         binaryTree.deepFirstTraversal(OrderTraversalType.IN_ORDER);
-//        binaryTree.print();
+        binaryTree.print();
         binaryTree.remove(-1);
         binaryTree.insert(3);
-//        binaryTree.print();
+        binaryTree.print();
         binaryTree.deepFirstTraversal(OrderTraversalType.IN_ORDER);
     }
 }
