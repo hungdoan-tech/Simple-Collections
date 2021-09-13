@@ -6,7 +6,7 @@ public class Entry<K, V> {
 
     private final K key;
 
-    private final V value;
+    private V value;
 
     public Entry(K key, V value) {
         this.hash = key.hashCode();
@@ -21,12 +21,20 @@ public class Entry<K, V> {
         return key.equals(other.key);
     }
 
+    public int getHash() {
+        return hash;
+    }
+
     public K getKey() {
         return key;
     }
 
     public V getValue() {
         return value;
+    }
+
+    public void setValue(V value) {
+        this.value = value;
     }
 
     @Override

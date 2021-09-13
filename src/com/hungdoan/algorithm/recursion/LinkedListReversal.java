@@ -1,7 +1,7 @@
 package com.hungdoan.algorithm.recursion;
 
-import com.hcmute.collection.list.LinkedList;
-import com.hcmute.collection.list.List;
+import com.hungdoan.collection.list.LinkedList;
+import com.hungdoan.collection.list.List;
 
 public class LinkedListReversal {
 

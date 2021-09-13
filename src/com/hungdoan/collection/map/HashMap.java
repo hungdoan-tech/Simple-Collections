@@ -23,7 +23,7 @@ public class HashMap<K, V> implements Map<K, V> {
 
     private int threshold;
 
-    private LinkedList<Entry<K, V>>[] bucket;
+    private LinkedList<Entry<K, V>>[] table;
 
     public HashMap() {
         this(DEFAULT_CAPACITY, DEFAULT_LOAD_FACTOR);
@@ -43,7 +43,7 @@ public class HashMap<K, V> implements Map<K, V> {
         this.loadFactor = loadFactor;
         this.capacity = Integer.max(DEFAULT_CAPACITY, capacity);
         this.threshold = (int) (this.capacity * this.loadFactor);
-        this.bucket = new LinkedList[this.capacity];
+        this.table = new LinkedList[this.capacity];
     }
 
     private int hashcodeToIndex(int hashcode) {
@@ -53,7 +53,7 @@ public class HashMap<K, V> implements Map<K, V> {
 
     @Override
     public Iterator<K> iterator() {
-
+        // TODO: Need to complete
         return null;
     }
 
@@ -70,7 +70,7 @@ public class HashMap<K, V> implements Map<K, V> {
     @Override
     public boolean containsKey(K key) {
         int index = this.hashcodeToIndex(key.hashCode());
-        LinkedList<Entry<K, V>> entryLinkedList = this.bucket[index];
+        LinkedList<Entry<K, V>> entryLinkedList = this.table[index];
         if (Objects.isNull(entryLinkedList)) {
             return false;
         }
@@ -86,13 +86,14 @@ public class HashMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean containsValue(V value) {
+        // TODO: Need to complete
         return false;
     }
 
     @Override
     public V get(K key) {
         int index = this.hashcodeToIndex(key.hashCode());
-        LinkedList<Entry<K, V>> entryLinkedList = this.bucket[index];
+        LinkedList<Entry<K, V>> entryLinkedList = this.table[index];
         if (Objects.isNull(entryLinkedList)) {
             return null;
         }
@@ -109,44 +110,87 @@ public class HashMap<K, V> implements Map<K, V> {
     @Override
     public V put(K key, V value) {
         int index = this.hashcodeToIndex(key.hashCode());
-        LinkedList<Entry<K, V>> entryLinkedList = this.bucket[index];
+        LinkedList<Entry<K, V>> entryLinkedList = this.table[index];
         if (Objects.isNull(entryLinkedList)) {
-            this.bucket[index] = new LinkedList<>();
-            entryLinkedList = this.bucket[index];
+            this.table[index] = new LinkedList<>();
+            entryLinkedList = this.table[index];
         }
+
+        Entry<K, V> existedEntry = null;
         Iterator<Entry<K, V>> iterator = entryLinkedList.iterator();
         while (iterator.hasNext()) {
             Entry<K, V> currentEntry = iterator.next();
-            if (!currentEntry.getKey().equals(key)) {
-                if (this.size >= this.threshold) {
-                    this.handleResizingBucket();
-                    this.put(key, value);
-                } else {
-                    entryLinkedList.insert(new Entry<>(key, value));
-                }
+            if (currentEntry.getKey().equals(key)) {
+                existedEntry = currentEntry;
                 break;
             }
         }
-        return value;
+
+        if (Objects.isNull(existedEntry)) {
+            entryLinkedList.insert(new Entry<>(key, value));
+            if (++this.size > this.threshold) {
+                this.handleResizingTable();
+            }
+            return value;
+        }
+        existedEntry.setValue(value);
+        return existedEntry.getValue();
     }
 
-    private void handleResizingBucket() {
-        // TODO: handle resize bucket
+    private void handleResizingTable() {
+        this.capacity *= 2;
+        this.threshold = (int) (this.capacity * this.loadFactor);
+        LinkedList<Entry<K, V>>[] newTable = new LinkedList[this.capacity];
+
+        for (int i = 0; i < this.table.length; i++) {
+            LinkedList<Entry<K, V>> entryLinkedList = this.table[i];
+            if (Objects.isNull(entryLinkedList)) {
+                continue;
+            }
+            Iterator<Entry<K, V>> iterator = entryLinkedList.iterator();
+            while (iterator.hasNext()) {
+                Entry<K, V> entry = iterator.next();
+                int index = this.hashcodeToIndex(entry.getHash());
+                LinkedList<Entry<K, V>> entryLinkedList1 = newTable[index];
+                if (Objects.isNull(entryLinkedList1)) {
+                    newTable[index] = new LinkedList<>();
+                }
+                newTable[index].insert(entry);
+            }
+            table[i].clear();
+            table[i] = null;
+        }
+        this.table = newTable;
     }
 
     @Override
     public V remove(K key) {
+        int index = this.hashcodeToIndex(key.hashCode());
+        LinkedList<Entry<K, V>> entryLinkedList = this.table[index];
+        if (Objects.isNull(entryLinkedList)) {
+            return null;
+        }
+
+        Iterator<Entry<K, V>> iterator = entryLinkedList.iterator();
+        while (iterator.hasNext()) {
+            Entry<K, V> currentEntry = iterator.next();
+            if (currentEntry.getKey().equals(key)) {
+                entryLinkedList.remove(currentEntry);
+                --this.size;
+                return currentEntry.getValue();
+            }
+        }
         return null;
     }
 
     @Override
     public void putAll(Map<? extends K, ? extends V> otherMap) {
-
+        // TODO: Need to complete
     }
 
     @Override
     public void clear() {
-        Arrays.fill(this.bucket, null);
+        Arrays.fill(this.table, null);
         this.size = 0;
     }
 }

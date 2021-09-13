@@ -3,6 +3,8 @@ package com.hungdoan.collection.list;
 import com.hungdoan.collection.Collection;
 import com.hungdoan.collection.Iterator;
 
+import java.util.Objects;
+
 public class LinkedList<T> implements List<T> {
 
     private Node<T> head;
@@ -74,7 +76,14 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public void clear() {
-        // TODO Auto-generated method stub
+        Node<T> currentNode = head;
+        while (currentNode != null) {
+            Node<T> nextNode = currentNode.getNext();
+            currentNode.setNext(null);
+            currentNode.setValue(null);
+            currentNode = nextNode;
+        }
+        head = tail = null;
     }
 
     /**
@@ -126,7 +135,23 @@ public class LinkedList<T> implements List<T> {
 
     @Override
     public boolean removeAt(int index) {
+        // TODO: Need to complete
         return false;
+    }
+
+    public void remove(T data) {
+        this.performRemove(this.head, data);
+    }
+
+    private Node<T> performRemove(Node<T> currentNode, T targetNode) {
+        if (currentNode.getValue().equals(targetNode) || Objects.isNull(currentNode)) {
+            return currentNode;
+        }
+        Node<T> expectedNode = performRemove(currentNode.getNext(), targetNode);
+        if (!Objects.isNull(expectedNode)) {
+            currentNode.setNext(expectedNode.getNext());
+        }
+        return null;
     }
 
     /**
