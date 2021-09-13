@@ -11,7 +11,6 @@ public class Palindrome {
 
     public boolean isPalindrome(String text) {
         int length = text.length();
-        System.out.println(text);
         if (length == 0 || length == 1) {
             return true;
         }
