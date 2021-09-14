@@ -53,8 +53,18 @@ public class HashMap<K, V> implements Map<K, V> {
 
     @Override
     public Iterator<K> iterator() {
-        // TODO: Need to complete
-        return null;
+        return new Iterator<K>() {
+
+            @Override
+            public boolean hasNext() {
+                return false;
+            }
+
+            @Override
+            public K next() {
+                return null;
+            }
+        };
     }
 
     @Override
@@ -192,5 +202,24 @@ public class HashMap<K, V> implements Map<K, V> {
     public void clear() {
         Arrays.fill(this.table, null);
         this.size = 0;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        for (int i = 0; i < table.length; i++) {
+            LinkedList<Entry<K, V>> linkedList = table[i];
+            if (linkedList == null || linkedList.isEmpty()) {
+                continue;
+            }
+            Iterator<Entry<K, V>> iterator = linkedList.iterator();
+            do {
+                Entry<K, V> node = iterator.next();
+                sb.append(node.toString()).append(", ");
+            } while (iterator.hasNext());
+        }
+        sb.append("}");
+        return sb.toString();
     }
 }
