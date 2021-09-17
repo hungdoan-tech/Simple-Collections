@@ -18,7 +18,7 @@ public interface Map<K, V> extends Iterable<K> {
 
     V remove(K key);
 
-    void putAll(Map<? extends K, ? extends V> otherMap);
+    void putAll(Map<K, V> otherMap);
 
     void clear();
 }

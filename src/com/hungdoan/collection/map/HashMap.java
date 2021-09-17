@@ -4,6 +4,7 @@ import com.hungdoan.collection.Iterator;
 import com.hungdoan.collection.list.LinkedList;
 
 import java.util.Arrays;
+import java.util.ConcurrentModificationException;
 import java.util.Objects;
 
 /**
@@ -67,16 +68,32 @@ public class HashMap<K, V> implements Map<K, V> {
      */
     @Override
     public Iterator<K> iterator() {
-        return new Iterator<K>() {
+        final int elementCount = size();
+
+        return new Iterator<>() {
+            int index = 0;
+            Iterator<Entry<K, V>> bucketIterator = table[0] == null ? null : table[0].iterator();
 
             @Override
             public boolean hasNext() {
-                return false;
+                if (elementCount != size()) {
+                    throw new ConcurrentModificationException("The table has been change it's state to empty while the client iterates elements !");
+                }
+
+                if (bucketIterator == null || !bucketIterator.hasNext()) {
+                    while (++index < capacity) {
+                        if (table[index] != null || !table[index].isEmpty()) {
+                            bucketIterator = table[index].iterator();
+                            break;
+                        }
+                    }
+                }
+                return index < capacity;
             }
 
             @Override
             public K next() {
-                return null;
+                return bucketIterator.next().getKey();
             }
         };
     }
@@ -104,12 +121,12 @@ public class HashMap<K, V> implements Map<K, V> {
     /**
      * This method is used to return the boolean value that stand for this hashmap contains a specific key or not
      *
-     * @param key K The key we want to seek
+     * @param seekKey K The key we want to seek
      * @return boolean
      */
     @Override
-    public boolean containsKey(K key) {
-        int index = this.hashcodeToIndex(key.hashCode());
+    public boolean containsKey(K seekKey) {
+        int index = this.hashcodeToIndex(seekKey.hashCode());
         LinkedList<Entry<K, V>> entryLinkedList = this.table[index];
         if (Objects.isNull(entryLinkedList)) {
             return false;
@@ -117,7 +134,7 @@ public class HashMap<K, V> implements Map<K, V> {
         Iterator<Entry<K, V>> iterator = entryLinkedList.iterator();
         while (iterator.hasNext()) {
             Entry<K, V> currentEntry = iterator.next();
-            if (currentEntry.getKey().equals(key)) {
+            if (currentEntry.getKey().equals(seekKey)) {
                 return true;
             }
         }
@@ -126,14 +143,20 @@ public class HashMap<K, V> implements Map<K, V> {
 
     /**
      * This method is used to return the boolean value that stand for this hashmap contains a specific value or not
-     * This method maybe can be removed in the future
      *
-     * @param value V The value we want to seek
+     * @param seekValue V The value we want to seek
      * @return boolean
      */
     @Override
-    public boolean containsValue(V value) {
-        // TODO: Need to complete
+    public boolean containsValue(V seekValue) {
+        Iterator<? extends K> iterator = this.iterator();
+        if (iterator.hasNext()) {
+            K key = iterator.next();
+            V value = this.get(key);
+            if (value.equals(seekValue)) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -254,13 +277,18 @@ public class HashMap<K, V> implements Map<K, V> {
     }
 
     /**
-     * This method is used to handle adding a whole other Map instance to the current hashmap
+     * This method is used to handle adding another Map instance to the current hashmap
      *
      * @param otherMap
      */
     @Override
-    public void putAll(Map<? extends K, ? extends V> otherMap) {
-        // TODO: Need to complete
+    public void putAll(Map<K, V> otherMap) {
+        Iterator<? extends K> iterator = otherMap.iterator();
+        if (iterator.hasNext()) {
+            K key = iterator.next();
+            V value = otherMap.get(key);
+            this.put(key, value);
+        }
     }
 
     /**
