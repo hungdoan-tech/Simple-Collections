@@ -7,7 +7,10 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * Separate Chaining Fashion HashMap
+ * Separate chaining fashion HashMap implementation
+ *
+ * @param <K> The type of key
+ * @param <V> The type of value
  */
 public class HashMap<K, V> implements Map<K, V> {
 
@@ -46,11 +49,22 @@ public class HashMap<K, V> implements Map<K, V> {
         this.table = new LinkedList[this.capacity];
     }
 
+    /**
+     * This method is exactly the Hash Function
+     *
+     * @param hashcode int The hashcode of the key
+     * @return
+     */
     private int hashcodeToIndex(int hashcode) {
         int index = hashcode % this.capacity;
         return 0;
     }
 
+    /**
+     * This method is the generating method which provide an iterator instance for the current hashmap
+     *
+     * @return Iterator<K>
+     */
     @Override
     public Iterator<K> iterator() {
         return new Iterator<K>() {
@@ -67,16 +81,32 @@ public class HashMap<K, V> implements Map<K, V> {
         };
     }
 
+    /**
+     * This method is used to return the current size
+     *
+     * @return boolean
+     */
     @Override
     public int size() {
         return this.size;
     }
 
+    /**
+     * This method is used to return the boolean value that stand for this hashmap is empty or not
+     *
+     * @return
+     */
     @Override
     public boolean isEmpty() {
         return this.size == 0;
     }
 
+    /**
+     * This method is used to return the boolean value that stand for this hashmap contains a specific key or not
+     *
+     * @param key K The key we want to seek
+     * @return boolean
+     */
     @Override
     public boolean containsKey(K key) {
         int index = this.hashcodeToIndex(key.hashCode());
@@ -94,12 +124,25 @@ public class HashMap<K, V> implements Map<K, V> {
         return false;
     }
 
+    /**
+     * This method is used to return the boolean value that stand for this hashmap contains a specific value or not
+     * This method maybe can be removed in the future
+     *
+     * @param value V The value we want to seek
+     * @return boolean
+     */
     @Override
     public boolean containsValue(V value) {
         // TODO: Need to complete
         return false;
     }
 
+    /**
+     * This method is used to return the value of an entry which is stored in the current hashmap through a specific key
+     *
+     * @param key K The key related to the entry which we want to seek
+     * @return The value of the entry which sticks with the key (input)
+     */
     @Override
     public V get(K key) {
         int index = this.hashcodeToIndex(key.hashCode());
@@ -117,6 +160,13 @@ public class HashMap<K, V> implements Map<K, V> {
         return null;
     }
 
+    /**
+     * This method is used to put a new entry into the current hashmap
+     *
+     * @param key   K The key of the new entry
+     * @param value K The value of the new entry
+     * @return The value of the new entry
+     */
     @Override
     public V put(K key, V value) {
         int index = this.hashcodeToIndex(key.hashCode());
@@ -147,6 +197,10 @@ public class HashMap<K, V> implements Map<K, V> {
         return existedEntry.getValue();
     }
 
+    /**
+     * This private method is used internally to resize the current hashmap when
+     * it reached to our specified scale quantity
+     */
     private void handleResizingTable() {
         this.capacity *= 2;
         this.threshold = (int) (this.capacity * this.loadFactor);
@@ -173,6 +227,12 @@ public class HashMap<K, V> implements Map<K, V> {
         this.table = newTable;
     }
 
+    /**
+     * This method is used to handle removing an entry which stick with a key
+     *
+     * @param key K The key
+     * @return V The value has been removed if completed or null if not completed
+     */
     @Override
     public V remove(K key) {
         int index = this.hashcodeToIndex(key.hashCode());
@@ -193,17 +253,30 @@ public class HashMap<K, V> implements Map<K, V> {
         return null;
     }
 
+    /**
+     * This method is used to handle adding a whole other Map instance to the current hashmap
+     *
+     * @param otherMap
+     */
     @Override
     public void putAll(Map<? extends K, ? extends V> otherMap) {
         // TODO: Need to complete
     }
 
+    /**
+     * Clear all entries in the current Hashmap
+     */
     @Override
     public void clear() {
         Arrays.fill(this.table, null);
         this.size = 0;
     }
 
+    /**
+     * This is the override toString method to represent the current hashmap as a String
+     *
+     * @return
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
