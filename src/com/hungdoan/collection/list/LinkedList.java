@@ -238,4 +238,20 @@ public class LinkedList<T> implements List<T> {
         }
         return -1;
     }
+
+    public T removeTail(){
+        if(this.isEmpty()){
+            return null;
+        }
+        Node<T> node = this.head;
+        while(node.getNext() != this.tail) {
+            node = node.getNext();
+        }
+        Node<T> oldTail = node.getNext();
+        node.setNext(null);
+        this.setTail(node);
+        T deletedValue = oldTail.getValue();
+        oldTail = null;
+        return deletedValue;
+    }
 }
