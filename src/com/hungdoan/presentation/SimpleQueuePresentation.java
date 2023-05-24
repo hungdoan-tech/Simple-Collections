@@ -1,7 +1,7 @@
 package com.hungdoan.presentation;
 
-import com.hungdoan.collection.queue.Queue;
-import com.hungdoan.collection.queue.SimpleQueueImpl;
+import com.hungdoan.collection.Queue;
+import com.hungdoan.collection.SimpleQueueImpl;
 
 public class SimpleQueuePresentation {
 

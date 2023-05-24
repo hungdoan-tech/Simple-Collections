@@ -1,7 +1,7 @@
 package com.hungdoan.presentation;
 
-import com.hungdoan.data_structure.BinarySearchTree;
-import com.hungdoan.data_structure.OrderTraversalType;
+import com.hungdoan.collection.BinarySearchTree;
+import com.hungdoan.collection.OrderTraversalType;
 
 public class BinarySearchTreePresentation {
 

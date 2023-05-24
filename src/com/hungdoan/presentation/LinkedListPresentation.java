@@ -1,9 +1,9 @@
 package com.hungdoan.presentation;
 
 import com.hungdoan.collection.Iterator;
-import com.hungdoan.collection.list.LinkedList;
-import com.hungdoan.collection.list.List;
-import com.hungdoan.collection.util.LinkedListUtils;
+import com.hungdoan.collection.LinkedList;
+import com.hungdoan.collection.List;
+import com.hungdoan.util.LinkedListUtils;
 
 public class LinkedListPresentation {
 

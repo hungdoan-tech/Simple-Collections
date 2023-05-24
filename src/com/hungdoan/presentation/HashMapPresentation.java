@@ -1,7 +1,7 @@
 package com.hungdoan.presentation;
 
-import com.hungdoan.collection.map.HashMap;
-import com.hungdoan.collection.map.Map;
+import com.hungdoan.collection.HashMap;
+import com.hungdoan.collection.Map;
 
 public class HashMapPresentation {
 
