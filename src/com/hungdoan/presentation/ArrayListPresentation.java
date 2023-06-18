@@ -7,9 +7,6 @@ import com.hungdoan.collection.List;
 public class ArrayListPresentation {
     public static void main(String[] args) {
         List<Integer> arrList = new ArrayList<>(3);
-        arrList.add(3);
-        arrList.add(4);
-        arrList.add(9);
         arrList.insertAt(20, 1);
         System.out.println(arrList.toString());
 

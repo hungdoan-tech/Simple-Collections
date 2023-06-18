@@ -63,8 +63,10 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
     public boolean addAll(int index, Collection<? extends E> c) {
         rangeCheckForAdd(index);
         boolean modified = false;
-        for (E e : c) {
-            add(index++, e);
+
+        Iterator<? extends E> iterator = c.iterator();
+        while (iterator.hasNext()) {
+            add(index++, c.iterator().next());
             modified = true;
         }
         return modified;
@@ -80,8 +82,8 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
 
     public ListIterator<E> listIterator(final int index) {
         rangeCheckForAdd(index);
-
-        return new AbstractList.ListItr(index);
+        // TODO: need to handle
+        return null;
     }
 
     public boolean equals(Object o) {
@@ -187,64 +189,6 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
         final void checkForComodification() {
             if (modCount != expectedModCount)
                 throw new ConcurrentModificationException();
-        }
-    }
-
-    private class ListItr extends AbstractList.Itr implements ListIterator<E> {
-        ListItr(int index) {
-            cursor = index;
-        }
-
-        public boolean hasPrevious() {
-            return cursor != 0;
-        }
-
-        public E previous() {
-            checkForComodification();
-            try {
-                int i = cursor - 1;
-                E previous = get(i);
-                lastRet = cursor = i;
-                return previous;
-            } catch (IndexOutOfBoundsException e) {
-                checkForComodification();
-                throw new NoSuchElementException();
-            }
-        }
-
-        public int nextIndex() {
-            return cursor;
-        }
-
-        public int previousIndex() {
-            return cursor - 1;
-        }
-
-        public void set(E e) {
-            if (lastRet < 0)
-                throw new IllegalStateException();
-            checkForComodification();
-
-            try {
-                AbstractList.this.set(lastRet, e);
-                expectedModCount = modCount;
-            } catch (IndexOutOfBoundsException ex) {
-                throw new ConcurrentModificationException();
-            }
-        }
-
-        public void add(E e) {
-            checkForComodification();
-
-            try {
-                int i = cursor;
-                AbstractList.this.add(i, e);
-                lastRet = -1;
-                cursor = i + 1;
-                expectedModCount = modCount;
-            } catch (IndexOutOfBoundsException ex) {
-                throw new ConcurrentModificationException();
-            }
         }
     }
 }

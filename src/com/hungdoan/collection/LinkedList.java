@@ -58,8 +58,7 @@ public class LinkedList<T> extends AbstractList<T> {
         }
         return true;
     }
-
-    @Override
+    
     public boolean contain(T inValue) {
         Iterator<T> iterator = this.iterator();
         while (iterator.hasNext()) {
@@ -93,7 +92,6 @@ public class LinkedList<T> extends AbstractList<T> {
      *
      * @param collection which is the collection we want to insert to our current Linked List
      */
-    @Override
     public void insertAll(Collection<T> collection) {
         Iterator<T> iterator = collection.iterator();
         if (iterator.hasNext()) {
@@ -145,11 +143,11 @@ public class LinkedList<T> extends AbstractList<T> {
         return false;
     }
 
-    public void remove(T data) {
-        this.performRemove(this.head, data);
+    public boolean remove(Object data) {
+        return this.performRemove(this.head, data) != null;
     }
 
-    private Node<T> performRemove(Node<T> currentNode, T targetNode) {
+    private Node<T> performRemove(Node<T> currentNode, Object targetNode) {
         if (currentNode.getValue().equals(targetNode) || Objects.isNull(currentNode)) {
             return currentNode;
         }
@@ -233,7 +231,7 @@ public class LinkedList<T> extends AbstractList<T> {
     }
 
     @Override
-    public int indexOf(T value) {
+    public int indexOf(Object value) {
         Iterator<T> iterator = this.iterator();
         int count = 0;
         while (iterator.hasNext()) {

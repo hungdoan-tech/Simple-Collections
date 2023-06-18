@@ -3,7 +3,7 @@ package com.hungdoan.collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ArrayList<T> implements List<T> {
+public class ArrayList<T> extends AbstractList<T> {
 
     private static final int SCALE_CONSTANT = 2;
 
@@ -19,6 +19,11 @@ public class ArrayList<T> implements List<T> {
         this.currentIndex = 0;
         this.length = DEFAULT_LENGTH;
         this.array = new Object[this.length];
+    }
+
+    @Override
+    public T get(int index) {
+        return null;
     }
 
     public ArrayList(int length) {
@@ -129,7 +134,6 @@ public class ArrayList<T> implements List<T> {
         return stringBuilder.toString();
     }
 
-    @Override
     public boolean contain(T inValue) {
         for (Object item : this.array) {
             T value = (T) (item);
@@ -161,7 +165,6 @@ public class ArrayList<T> implements List<T> {
      *
      * @param collection which is the collection we want to insert to our current Array List
      */
-    @Override
     public void insertAll(Collection<T> collection) {
         Iterator<T> iterator = collection.iterator();
         if (iterator.hasNext()) {
@@ -178,6 +181,11 @@ public class ArrayList<T> implements List<T> {
     @Override
     public Iterator<T> iterator() {
         return new ArrayListIterator<>(this);
+    }
+
+    @Override
+    public boolean retainAll(java.util.Collection<?> c) {
+        return false;
     }
 
     public T max() {
@@ -245,7 +253,7 @@ public class ArrayList<T> implements List<T> {
     }
 
     @Override
-    public int indexOf(T value) {
+    public int indexOf(Object value) {
         // TODO Auto-generated method stub
         return 0;
     }

@@ -9,10 +9,6 @@ public class LinkedListPresentation {
 
     public static void main(String[] args) {
         List<Integer> linkedList = new LinkedList<>();
-
-        linkedList.insert(3);
-        linkedList.insert(4);
-        linkedList.insert(9);
         linkedList.insertAt(20, 1);
 
         System.out.println(linkedList);
